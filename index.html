@@ -65,7 +65,7 @@
                 <th> First Name </th>
                 <th> last Name </th>
                 <th> Address </th>
-                <th> Mobile Number </th>
+                <th>Mobile Number </th>
                 <th> City </th>
                 <th colspan='2'> Action </th></tr>`;
 
@@ -77,13 +77,12 @@
                 <td>${arr_data[i].add}</td>
                 <td>${arr_data[i].num}</td>
                 <td>${arr_data[i].city}</td>
-                <td><button type="button" id='${arr_data[i].id}' onclick='delete_record(${arr_data[i].id})'>Delete</button></td>
-                <td><button type="button" id='${arr_data[i].id}' onclick='update_record(${arr_data[i].id})'>Update</button></td></tr>`;
+                <td><button type="button" id='${i}' onclick='delete_record(${i})'>Delete</button></td>
+                <td><button type="button" id='${i}' onclick='update_record(${i})'>Update</button></td></tr>`;
             }
             // table += `</table>`;
             document.getElementById('data').innerHTML = table;
         }
-
         // Detele Record...
         function delete_record(id) {
             // debugger;
@@ -91,22 +90,15 @@
             document.getElementById(id).parentNode.parentNode.remove();
             // console.log(arr_data)
         }
-
-
         function update_record(id) {
-            console.log(id)
-            console.log(document.getElementById(id).parentNode.parentNode);
-            let u =document.getElementById(id).parentNode.parentNode;
-            
-            
+            // console.log(id)
+            document.getElementById("fname").value = arr_data[id].fname;
+            document.getElementById("lname").value = arr_data[id].lname;
+            document.getElementById("add").value = arr_data[id].add;
+            document.getElementById("num").value = arr_data[id].num;
+            document.getElementById("city").value = arr_data[id].city;
 
-            // document.getElementById("fname").value = arr_data[id].fname;
-            // document.getElementById("lname").value = arr_data[id].lname;
-            // document.getElementById("add").value = arr_data[id].add;
-            // document.getElementById("num").value = arr_data[id].num;
-            // document.getElementById("city").value = arr_data[id].city;
-
-            // document.getElementById('up_btn').innerHTML = `<button type="button" onclick="updated_record(${id})" value="Update">Update</button>`
+            document.getElementById('up_btn').innerHTML = `<button type="button" onclick="updated_record(${id})" value="Update">Update</button>`
         }
 
         function updated_record(idd) {
@@ -116,8 +108,8 @@
             // obj.fname = document.getElementById("fname").value
             // obj.lname = document.getElementById("lname").value
             
-            // console.log(obj)
-            // for (let i = 0; i <= arr_data.length; i++) {
+            console.log(obj)
+            for (let i = 0; i < arr_data.length; i++) {
             table += `<tr>
                 <td>${idd}</td>
                 <td>${document.getElementById("fname").value}</td>
@@ -125,12 +117,11 @@
                 <td>${document.getElementById("add").value}</td>
                 <td>${document.getElementById("num").value}</td>
                 <td>${document.getElementById("city").value}</td>
-                <td><button type="button" id='${idd}' onclick='delete_record(${idd})'>Delete</button></td>
-                <td><button type="button" id='${idd}' onclick='update_record(${idd})'>Update</button></td></tr>`;
-            document.getElementById('data').innerHTML = table;
+                <td><button type="button" id='${i}' onclick='delete_record(${i})'>Delete</button></td>
+                <td><button type="button" id='${i}' onclick='update_record(${i})'>Update</button></td></tr>`;
 
-        // }    
         }
+    }
         // table += `</table>`;
 
     </script>
