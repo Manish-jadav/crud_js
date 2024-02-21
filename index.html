@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD </title>
+</head>
+
+<body>
+    <!-- <form action="" onclick="event.preventDefault();" > -->
+    <table border="4">
+        <tr>
+            <td>First Name </td>
+            <td><input type="text" id="fname"></td>
+        </tr>
+        <tr>
+            <td>Last Name </td>
+            <td><input type="text" id="lname"></td>
+        </tr>
+        <tr>
+            <td>Address</td>
+            <td><input type="text" id="add"></td>
+        </tr>
+        <tr>
+            <td>Mobile Number </td>
+            <td><input type="text" id="num"></td>
+        </tr>
+        <tr>
+            <td>City</td>
+            <td><input type="text" id="city"></td>
+        </tr>
+        <tr>
+            <td  align="center"  id=""><button type="button" onclick="submit_data()" value="Submit">Submit</button>
+               <td id="up_btn" align="center"></td>
+            </td>
+        </tr>
+
+    </table>
+    <br>
+    <div id="data"></div>
+    <!-- </form> -->
+    <script>
+        var table = '';
+        var id = 0;
+        var arr_data = new Array();
+        var obj = new Object();
+        //Submit Data..
+        function submit_data() {
+            id++;
+             obj = {
+                id: id,
+                fname: document.getElementById('fname').value,
+                lname: document.getElementById('lname').value,
+                add: document.getElementById('add').value,
+                num: document.getElementById('num').value,
+                city: document.getElementById('city').value,
+            }
+            arr_data.push(obj);
+            console.log(arr_data);
+
+            table = `<table border='4'>
+                <tr>
+                <th> Id </th>
+                <th> First Name </th>
+                <th> last Name </th>
+                <th> Address </th>
+                <th> Mobile Number </th>
+                <th> City </th>
+                <th colspan='2'> Action </th></tr>`;
+
+            for (let i = 0; i < arr_data.length; i++) {
+                table += `<tr>
+                <td>${arr_data[i].id}</td>
+                <td>${arr_data[i].fname}</td>
+                <td>${arr_data[i].lname}</td>
+                <td>${arr_data[i].add}</td>
+                <td>${arr_data[i].num}</td>
+                <td>${arr_data[i].city}</td>
+                <td><button type="button" id='${arr_data[i].id}' onclick='delete_record(${arr_data[i].id})'>Delete</button></td>
+                <td><button type="button" id='${arr_data[i].id}' onclick='update_record(${arr_data[i].id})'>Update</button></td></tr>`;
+            }
+            // table += `</table>`;
+            document.getElementById('data').innerHTML = table;
+        }
+
+        // Detele Record...
+        function delete_record(id) {
+            // debugger;
+            arr_data.splice(id, 1);
+            document.getElementById(id).parentNode.parentNode.remove();
+            // console.log(arr_data)
+        }
+
+
+        function update_record(id) {
+            console.log(id)
+            console.log(document.getElementById(id).parentNode.parentNode);
+            let u =document.getElementById(id).parentNode.parentNode;
+            
+            
+
+            // document.getElementById("fname").value = arr_data[id].fname;
+            // document.getElementById("lname").value = arr_data[id].lname;
+            // document.getElementById("add").value = arr_data[id].add;
+            // document.getElementById("num").value = arr_data[id].num;
+            // document.getElementById("city").value = arr_data[id].city;
+
+            // document.getElementById('up_btn').innerHTML = `<button type="button" onclick="updated_record(${id})" value="Update">Update</button>`
+        }
+
+        function updated_record(idd) {
+            console.log(idd)
+            console.log(document.getElementById("fname").value)
+            // obj.id = idd;
+            // obj.fname = document.getElementById("fname").value
+            // obj.lname = document.getElementById("lname").value
+            
+            // console.log(obj)
+            // for (let i = 0; i <= arr_data.length; i++) {
+            table += `<tr>
+                <td>${idd}</td>
+                <td>${document.getElementById("fname").value}</td>
+                <td>${document.getElementById("lname").value}</td>
+                <td>${document.getElementById("add").value}</td>
+                <td>${document.getElementById("num").value}</td>
+                <td>${document.getElementById("city").value}</td>
+                <td><button type="button" id='${idd}' onclick='delete_record(${idd})'>Delete</button></td>
+                <td><button type="button" id='${idd}' onclick='update_record(${idd})'>Update</button></td></tr>`;
+            document.getElementById('data').innerHTML = table;
+
+        // }    
+        }
+        // table += `</table>`;
+
+    </script>
+</body>
+
+</html>
