@@ -1,65 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CRUD </title>
-</head>
-<body>
-    <table border="6">
-        <tr>
-            <td>First Name </td>
-            <td><input type="text" id="fname"></td>
-        </tr>
-        <tr>
-            <td>Last Name </td>
-            <td><input type="text" id="lname"></td>
-        </tr>
-        <tr>
-            <td>Address</td>
-            <td><input type="text" id="add"></td>
-        </tr>
-        <tr>
-            <td>Mobile Number </td>
-            <td><input type="text" id="num"></td>
-        </tr>
-        <tr>
-            <td>City</td>
-            <td><input type="text" id="city"></td>
-        </tr>
-        <tr>
-            <td align="center" id=""><button type="button" onclick="submit_data()" value="Submit">Submit</button></td>
-            <td id="up_btn" align="center"></td>
-        </tr>
-    </table>
-    <br>
-    <div id="data"></div>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-size: 40px;
+        }
 
+        .tbl,
+        #data {
+            display: flex;
+            justify-content: center;
+            padding-top: 5%;
+        }
+
+        td,
+        th {
+            padding: 20px;
+        }
+
+        button {
+            background-color: black;
+            color: white;
+            padding: 5px 15px 5px 15px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="tbl">
+        <table border="6">
+            <tr>
+                <th colspan="2" align="center">Registraction Form</th>
+            </tr>
+            <tr>
+                <td> First Name </td>
+                <td><input type="text" id="fname"></td>
+            </tr>
+            <tr>
+                <td> Last Name </td>
+                <td><input type="text" id="lname"></td>
+            </tr>
+            <tr>
+                <td> Address </td>
+                <td><input type="text" id="add"></td>
+            </tr>
+            <tr>
+                <td> Mobile Number </td>
+                <td><input type="number" id="num" minlength="10" maxlength="10"></td>
+            </tr>
+            <tr>
+                <td> City </td>
+                <td><input type="text" id="city"></td>
+            </tr>
+            <tr>
+                <td align="center" id="sub_btn"><button type="button" onclick="submit_data();"
+                        value="Submit">Submit</button></td>
+                <td id="up_btn" align="center"></td>
+            </tr>
+        </table>
+        <br>
+    </div>
+    <div id="data"></div>
     <script>
 
         var table = '';
         var arr_data = new Array();
         var obj = new Object();
         var id = 0;
-        
+
         //Submit Data..
         function submit_data() {
-            id++;
-            obj = {
-                id: id,
-                fname: document.getElementById('fname').value,
-                lname: document.getElementById('lname').value,
-                add: document.getElementById('add').value,
-                num: document.getElementById('num').value,
-                city: document.getElementById('city').value,
+            if (validations()) {
+
+                id++;
+                obj = {
+                    id: id,
+                    fname: document.getElementById('fname').value,
+                    lname: document.getElementById('lname').value,
+                    add: document.getElementById('add').value,
+                    num: document.getElementById('num').value,
+                    city: document.getElementById('city').value,
+                }
+                arr_data.push(obj);
+                console.log(arr_data);
+                show_data();
             }
-            arr_data.push(obj);
-            console.log(arr_data);
-            show_data();
+        }
+
+        //Data validations..
+        function validations() {
+            let fname = document.getElementById('fname').value;
+            let lname = document.getElementById('lname').value;
+            let add = document.getElementById('add').value;
+            let num = document.getElementById('num').value;
+            let city = document.getElementById('city').value;
+            var regName = /^[a-zA-Z]+$/;
+            if (fname == '' || fname == null) {
+                alert("Please enter first name !");
+                return false;
+            } else if (!regName.test(fname)) {
+                alert("Please enter a valid first name !");
+                return false;
+            } else if (lname == '' || lname == null) {
+                alert("Please enter a last name!");
+                return false;
+            } else if (!regName.test(lname)) {
+                alert("Please enter a valid last name !");
+                return false;
+            } else if (add == '') {
+                alert("Please enter an address.");
+                return false;
+            } else if (isNaN(num) || num.length != 10) {
+                alert("Please enter a valid phone number with 10 digits.");
+                return false;
+            } else if (isNaN(num) || city == '') {
+                alert("Please enter valid city.");
+                return false;
+            } else {
+                return true;
+            }
+
         }
 
         //Show data in table..
-        function show_data(){
+        function show_data() {
             table = `<table border='4'>
                 <tr>
                 <th> Id </th>
@@ -85,7 +157,7 @@
             document.getElementById('data').innerHTML = table;
             reset();
         }
-        
+
         // Detele Record...
         function delete_record(id) {
             // debugger;
@@ -101,14 +173,15 @@
             document.getElementById("add").value = arr_data[id].add;
             document.getElementById("num").value = arr_data[id].num;
             document.getElementById("city").value = arr_data[id].city;
-            document.getElementById('up_btn').innerHTML = `<button type="button" onclick="updated_record(${id})" value="Update">Update</button>`
+            document.getElementById('up_btn').innerHTML = `<button type="button" onclick="updated_record(${id})" value="Update">Update</button>`;
+            // document.getElementById("sub_btn").style.display= "none";
         }
 
         function updated_record(idd) {
             console.log(arr_data)
             console.log(document.getElementById("fname").value)
             arr_data[idd] = {
-                "id": idd+1,
+                "id": idd + 1,
                 "fname": document.getElementById("fname").value,
                 "lname": document.getElementById("lname").value,
                 "add": document.getElementById("add").value,
@@ -116,20 +189,24 @@
                 "city": document.getElementById("city").value
             };
             show_data();
+            // document.getElementById("up_btn").style.display= "none";
+            // document.getElementById("sub_btn").style.display= "";
+
+
             // console.log(obj)
             // console.log(arr_data)
         }
 
         // Reset Fields..
-        function reset(){
-            document.getElementById("fname").value="";
-            document.getElementById("lname").value="";
-            document.getElementById("add").value="";
-            document.getElementById("num").value="";
-            document.getElementById("city").value="";
+        function reset() {
+            document.getElementById("fname").value = "";
+            document.getElementById("lname").value = "";
+            document.getElementById("add").value = "";
+            document.getElementById("num").value = "";
+            document.getElementById("city").value = "";
 
         }
-    
+
     </script>
 </body>
 
