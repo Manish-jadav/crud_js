@@ -10,7 +10,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-size: 2vw;
+            /* font-size: 2vw; */
             /* background-color: antiquewhite; */
         }
 
@@ -20,21 +20,22 @@
             justify-content: center;
             padding-top: 5%;
         }
-        table{
-            background-color:azure;
 
-        }
-        td,
+        /* table{
+            background-color:;
+
+        } */
+        /* td,
         th {
-            padding: 1vw 0.5vw;
-        }
+          padding: 1vw 0.5vw; 
+        } */
 
-        button {
+        /* button {
             background-color: blue;
-            color: white;
-            padding: 5px 10px 5px 10px;
-            border-radius: 5px;
-        }
+            color: white; */
+        /* padding: 5px 10px 5px 10px; */
+        /* border-radius: 5px; */
+        /* } */
     </style>
 </head>
 
@@ -65,6 +66,13 @@
                 <td><input type="text" id="city"></td>
             </tr>
             <tr>
+                <td> Gender </td>
+                <td>&nbsp; <input type="radio" id="male" name="gen" value="Male"> Male &nbsp;&nbsp;
+                    <input type="radio" id="female" name="gen" value="Female"> Female &nbsp;&nbsp;
+                    <input type="radio" id="other" name="gen" value="other"> Other &nbsp;&nbsp;
+                </td>
+            </tr>
+            <tr>
                 <td align="center" id="sub_btn"><button type="button" onclick="submit_data();"
                         value="Submit">Submit</button></td>
                 <td id="up_btn" align="center"></td>
@@ -83,6 +91,19 @@
         //Submit Data..
         function submit_data() {
             if (validations()) {
+                let male = document.querySelector('#male');
+                let female = document.querySelector('#female');
+                let other = document.querySelector("#other");
+                let gen = "";
+                if (male.checked) {
+                    // alert('Please choose your Gender: Male or Female or other ')
+                    gen = "Male";
+                } else if (female.checked) {
+                    // alert('Form submitted!')
+                    gen = "Female";
+                } else if (other.checked) {
+                    gen = "Other";
+                }
 
                 id++;
                 obj = {
@@ -92,6 +113,8 @@
                     add: document.getElementById('add').value,
                     num: document.getElementById('num').value,
                     city: document.getElementById('city').value,
+                    // gender: document.querySelector(["input[name='gen']:checked"]).value,
+                    gender: gen,
                 }
                 arr_data.push(obj);
                 console.log(arr_data);
@@ -106,6 +129,25 @@
             let add = document.getElementById('add').value;
             let num = document.getElementById('num').value;
             let city = document.getElementById('city').value;
+            //  gen = document.querySelector("input[name='gen']:checked").value;
+            // alert(gen)
+            // let gen = document.querySelector("input[name='gen']:checked").value;
+            let male = document.querySelector('#male');
+            let female = document.querySelector('#female');
+            let other = document.querySelector("#other");
+            // let gen = "";
+
+            // if (male.checked) {
+            //     // alert('Please choose your Gender: Male or Female or other ')
+            //     gen = "Male";
+            // } else if(female.checked){
+            //     // alert('Form submitted!')
+            //     gen = "Female";
+            // }else if(other.checked){
+            //     gen = "Other";
+            // }else{
+            //     alert("Please choose your gender ")
+            // }
             var regName = /^[a-zA-Z]+$/;
             if (fname == '' || fname == null) {
                 alert("Please enter first name !");
@@ -128,7 +170,12 @@
             } else if (isNaN(num) || city == '') {
                 alert("Please enter valid city.");
                 return false;
-            } else {
+            }
+            else if (!male.checked && !female.checked && !other.checked) {
+                alert("Please select your Gender.");
+                return false;
+            }
+            else {
                 return true;
             }
 
@@ -144,6 +191,7 @@
                 <th> Address </th>
                 <th>Mobile Number </th>
                 <th> City </th>
+                <th> Gender </th>
                 <th colspan='2'> Action </th></tr>`;
 
             for (let i = 0; i < arr_data.length; i++) {
@@ -154,6 +202,8 @@
                 <td>${arr_data[i].add}</td>
                 <td>${arr_data[i].num}</td>
                 <td>${arr_data[i].city}</td>
+                <td>${arr_data[i].gender}</td>
+
                 <td><button type="button" id='${i}' onclick='delete_record(${i})'>Delete</button></td>
                 <td><button type="button" id='${i}' onclick='update_record(${i})'>Update</button></td></tr>`;
             }
@@ -177,6 +227,14 @@
             document.getElementById("add").value = arr_data[id].add;
             document.getElementById("num").value = arr_data[id].num;
             document.getElementById("city").value = arr_data[id].city;
+            if (arr_data[id].gender == "Male") {
+                document.getElementById("male").checked = true;
+            } else if (arr_data[id].gender == "Female") {
+                document.getElementById("female").checked = true;
+            } else {
+                document.getElementById("other").checked = true;
+            }
+
             document.getElementById('up_btn').innerHTML = `<button type="button" onclick="updated_record(${id})" value="Update">Update</button>`;
             // document.getElementById("sub_btn").style.display= "none";
         }
@@ -190,15 +248,13 @@
                 "lname": document.getElementById("lname").value,
                 "add": document.getElementById("add").value,
                 "num": document.getElementById("num").value,
-                "city": document.getElementById("city").value
+                "city": document.getElementById("city").value,
+                "gender": document.querySelector('input[name="gen"]:checked').value,
+
             };
             show_data();
             // document.getElementById("up_btn").style.display= "none";
             // document.getElementById("sub_btn").style.display= "";
-
-
-            // console.log(obj)
-            // console.log(arr_data)
         }
 
         // Reset Fields..
@@ -208,6 +264,10 @@
             document.getElementById("add").value = "";
             document.getElementById("num").value = "";
             document.getElementById("city").value = "";
+            document.querySelector("input[value='other']").checked = false;
+            document.querySelector("input[value='Male']").checked = false;
+            document.querySelector("input[value='Female']").checked = false;
+
 
         }
 
