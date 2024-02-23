@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,17 +11,22 @@
             padding: 0;
             box-sizing: border-box;
         }
-        .tbl, #data {
+
+        .tbl,
+        #data {
             display: flex;
             justify-content: center;
             padding-top: 1%;
         }
+
         table {
             background-color: aliceblue;
         }
-        td, th {
+        td,
+        th {
             padding: 0.5vw;
         }
+
         button {
             background-color: blue;
             color: white;
@@ -36,28 +42,28 @@
                 <th colspan="4" align="center">Registraction Form</th>
             </tr>
             <tr>
-                <td> Name </td>
+                <td><label for="fname"> Name </label></td>
                 <td><input type="text" id="fname"></td>
-                <td> Mobile Number </td>
+                <td><label for="num"> Mobile Number </label> </td>
                 <td><input type="number" id="num" minlength="10" maxlength="10"></td>
             </tr>
             <tr>
-                <td> Email </td>
+                <td><label for="email"> Email </label></td>
                 <td><input type="email" id="email"></td>
-                <td> Password </td>
+                <td><label for="password"> Password </label></td>
                 <td><input type="password" id="password"></td>
             </tr>
             <tr>
-                <td> City </td>
+                <td><label for="city"> City </label></td>
                 <td><input type="text" id="city"></td>
                 <td> Gender </td>
-                <td>&nbsp; <input type="radio" id="male" name="gen" value="Male"> Male &nbsp;&nbsp;
-                    <input type="radio" id="female" name="gen" value="Female"> Female &nbsp;&nbsp;
-                    <input type="radio" id="other" name="gen" value="other"> Other &nbsp;&nbsp;
+                <td>&nbsp; <input type="radio" id="male" name="gen" value="Male"><label for="male"> Male </label>&nbsp;&nbsp;
+                    <input type="radio" id="female" name="gen" value="Female"><label for="female"> Female </label>&nbsp;&nbsp;
+                    <input type="radio" id="other" name="gen" value="other"><label for="other"> Other </label>&nbsp;&nbsp;
                 </td>
             </tr>
             <tr>
-                <td>Car </td>
+                <td><label for="car"> Car </label></td>
                 <td><select name="car" id="car">
                         <option value="None">None</option>
                         <option value="BMW">BMW</option>
@@ -66,28 +72,28 @@
                         <option value="Saab">Saab</option>
                     </select></td>
                 <td> Hobby </td>
-                <td><input type="checkbox" id="cricket" value="cricket"> Cricket &nbsp;&nbsp;
-                    <input type="checkbox" id="chess" value="chess"> Chess &nbsp;&nbsp;
-                    <input type="checkbox" id="tennis" value="tennis"> Tennis
+                <td><input type="checkbox" id="cricket" value="cricket"><label for="cricket"> Cricket </label>&nbsp;&nbsp;
+                    <input type="checkbox" id="chess" value="chess"><label for="chess"> Chess </label>&nbsp;&nbsp;
+                    <input type="checkbox" id="tennis" value="tennis"><label for="tennis"> Tennis </label>
                 </td>
             </tr>
             <tr>
-                <td>Birth Date </td>
+                <td><label for="b_date">Birth Date </label></td>
                 <td><input type="date" id="b_date"></td>
-                <td>Choose Color </td>
+                <td><label for="color"> Choose Color </label></td>
                 <td><input type="color" id="color"></td>
             </tr>
             <tr>
-                <td> Choose File </td>
+                <td><label for="file"> Choose File </label></td>
                 <td><input type="file" id="file"></td>
-                <td> Age </td>
+                <td><label for="age"> Age </label></td>
                 <td><input type="range" id="age" min="1" max="150" value="25"
                         oninput="this.nextElementSibling.value = this.value">
                     <output>25</output>
                 </td>
             </tr>
             <tr>
-                <td> Address </td>
+                <td><label for="add"> Address </label></td>
                 <td colspan="3"><textarea name="" id="add" cols="30" rows="4"></textarea></td>
             </tr>
             <tr>
@@ -110,51 +116,51 @@
         //Submit Data..
         function submit_data() {
             if (validations()) {
-            hobby = {
-                cricket: "",
-                tennis: "",
-                chess: ""
-            };
-            let male = document.querySelector('#male');
-            let female = document.querySelector('#female');
-            let other = document.querySelector("#other");
-            let gen = "";
-            let cricket = document.querySelector('#cricket');
-            let tennis = document.querySelector("#tennis");
-            let chess = document.querySelector("#chess");
+                hobby = {
+                    cricket: "",
+                    tennis: "",
+                    chess: ""
+                };
+                let male = document.querySelector('#male');
+                let female = document.querySelector('#female');
+                let other = document.querySelector("#other");
+                let gen = "";
+                let cricket = document.querySelector('#cricket');
+                let tennis = document.querySelector("#tennis");
+                let chess = document.querySelector("#chess");
 
-            if (cricket.checked) { hobby.cricket = "cricket"; }
-            if (tennis.checked) { hobby.tennis = "tennis"; }
-            if (chess.checked) { hobby.chess = "chess"; }
-            // console.log(hobby);
-            if (male.checked) {
-                gen = "Male";
-            } else if (female.checked) {
-                gen = "Female";
-            } else if (other.checked) {
-                gen = "Other";
-            }
+                if (cricket.checked) { hobby.cricket = "cricket"; }
+                if (tennis.checked) { hobby.tennis = "tennis"; }
+                if (chess.checked) { hobby.chess = "chess"; }
+                // console.log(hobby);
+                if (male.checked) {
+                    gen = "Male";
+                } else if (female.checked) {
+                    gen = "Female";
+                } else if (other.checked) {
+                    gen = "Other";
+                }
 
-            id++;
-            obj = {
-                id: id,
-                fname: document.getElementById('fname').value,
-                email: document.getElementById('email').value,
-                add: document.getElementById('add').value,
-                num: document.getElementById('num').value,
-                city: document.getElementById('city').value,
-                gender: gen,
-                hobby: Object.values(hobby).join(' '),
-                car: document.getElementById('car').value,
-                b_date: document.getElementById('b_date').value,
-                color: document.getElementById('color').value,
-                file: document.getElementById('file').value,
-                password: document.getElementById("password").value,
-                age: document.getElementById('age').value
+                id++;
+                obj = {
+                    id: id,
+                    fname: document.getElementById('fname').value,
+                    email: document.getElementById('email').value,
+                    add: document.getElementById('add').value,
+                    num: document.getElementById('num').value,
+                    city: document.getElementById('city').value,
+                    gender: gen,
+                    hobby: Object.values(hobby).join(' '),
+                    car: document.getElementById('car').value,
+                    b_date: document.getElementById('b_date').value,
+                    color: document.getElementById('color').value,
+                    file: document.getElementById('file').value,
+                    password: document.getElementById("password").value,
+                    age: document.getElementById('age').value
+                }
+                arr_data.push(obj);
+                show_data();
             }
-            arr_data.push(obj);
-            show_data();
-        }
         }
 
         //Show data in table..
@@ -297,9 +303,10 @@
             document.getElementById("age").value = arr_data[id].age;
 
             document.getElementById('up_btn').innerHTML = `<td><button type="button" onclick="updated_record(${id})" value="Update"> Update </button></td>`;
-           
+
             document.getElementById("sub_btn").style.display = "none";
             document.getElementById("up_btn").style.display = "";
+
         }
 
         function updated_record(idd) {
@@ -366,4 +373,5 @@
 
     </script>
 </body>
+
 </html>
