@@ -18,7 +18,7 @@
         #data {
             display: flex;
             justify-content: center;
-            padding-top: 2%;
+            padding-top: 1%;
         }
 
         table {
@@ -38,40 +38,33 @@
             border-radius: 5px;
         }
 
-        /* input[type='radio']{
-            height: 20px;
-            width: 20px;
-         } */
+        /* input {
+            
+        } */
     </style>
 </head>
 
 <body>
     <div class="tbl">
-        <table border="6">
+        <table>
             <tr>
-                <th colspan="2" align="center">Registraction Form</th>
+                <th colspan="4" align="center">Registraction Form</th>
             </tr>
             <tr>
-                <td> First Name </td>
+                <td> Name </td>
                 <td><input type="text" id="fname"></td>
-            </tr>
-            <tr>
-                <td> Last Name </td>
-                <td><input type="text" id="lname"></td>
-            </tr>
-            <tr>
-                <td> Address </td>
-                <td><input type="text" id="add"></td>
-            </tr>
-            <tr>
                 <td> Mobile Number </td>
                 <td><input type="number" id="num" minlength="10" maxlength="10"></td>
             </tr>
             <tr>
-                <td> City </td>
-                <td><input type="text" id="city"></td>
+                <td> Email </td>
+                <td><input type="email" id="email"></td>
+                <td> Password </td>
+                <td><input type="password" id="password"></td>
             </tr>
             <tr>
+                <td> City </td>
+                <td><input type="text" id="city"></td>
                 <td> Gender </td>
                 <td>&nbsp; <input type="radio" id="male" name="gen" value="Male"> Male &nbsp;&nbsp;
                     <input type="radio" id="female" name="gen" value="Female"> Female &nbsp;&nbsp;
@@ -79,6 +72,14 @@
                 </td>
             </tr>
             <tr>
+                <td>Car </td>
+                <td><select name="car" id="car">
+                        <option value="None">None</option>
+                        <option value="BMW">BMW</option>
+                        <option value="Volvo">Volvo</option>
+                        <option value="Audi">Audi</option>
+                        <option value="Saab">Saab</option>
+                    </select></td>
                 <td> Hobby </td>
                 <td><input type="checkbox" id="cricket" value="cricket"> Cricket &nbsp;&nbsp;
                     <input type="checkbox" id="chess" value="chess"> Chess &nbsp;&nbsp;
@@ -86,18 +87,28 @@
                 </td>
             </tr>
             <tr>
-                <td>Car </td>
-                <td><select name="car" id="car" >
-                        <option value="BMW">BMW</option>
-                        <option value="Volvo">Volvo</option>
-                        <option value="Audi">Audi</option>
-                        <option value="Saab">Saab</option>
-                    </select></td>
+                <td>Birth Date </td>
+                <td><input type="date" id="b_date"></td>
+                <td>Choose Color </td>
+                <td><input type="color" id="color"></td>
             </tr>
             <tr>
-                <td align="center" id="sub_btn"><button type="button" onclick="submit_data();"
-                        value="Submit">Submit</button></td>
-                <td id="up_btn" align="center"></td>
+                <td> Choose File </td>
+                <td><input type="file" id="file"></td>
+                <td> Age </td>
+                <td><input type="range" id="age" min="1" max="150" value="25"
+                        oninput="this.nextElementSibling.value = this.value">
+                    <output>25</output>
+                </td>
+            </tr>
+            <tr>
+                <td> Address </td>
+                <td><textarea name="" id="add" cols="30" rows="4"></textarea></td>
+            </tr>
+            <tr>
+                <td align="center" id="sub_btn" colspan="4" style="border: none;"><button type="button"
+                        onclick="submit_data();" value="Submit"> Submit </button></td>
+                <td id="up_btn" align="center" colspan="4" style="border: none;"></td>
             </tr>
         </table>
         <br>
@@ -113,7 +124,7 @@
 
         //Submit Data..
         function submit_data() {
-            // if (validations()) {
+            if (validations()) {
             hobby = {
                 cricket: "",
                 tennis: "",
@@ -124,8 +135,8 @@
             let other = document.querySelector("#other");
             let gen = "";
             let cricket = document.querySelector('#cricket');
-            let tennis = document.getElementById("tennis");
-            let chess = document.getElementById("chess");
+            let tennis = document.querySelector("#tennis");
+            let chess = document.querySelector("#chess");
 
             if (cricket.checked) { hobby.cricket = "cricket"; }
             if (tennis.checked) { hobby.tennis = "tennis"; }
@@ -143,16 +154,22 @@
             obj = {
                 id: id,
                 fname: document.getElementById('fname').value,
-                lname: document.getElementById('lname').value,
+                email: document.getElementById('email').value,
                 add: document.getElementById('add').value,
                 num: document.getElementById('num').value,
                 city: document.getElementById('city').value,
                 gender: gen,
                 hobby: Object.values(hobby).join(' '),
-                car : document.getElementById('car').value
+                car: document.getElementById('car').value,
+                b_date: document.getElementById('b_date').value,
+                color: document.getElementById('color').value,
+                file: document.getElementById('file').value,
+                password: document.getElementById("password").value,
+                age: document.getElementById('age').value
             }
             arr_data.push(obj);
             show_data();
+        }
         }
 
         //Show data in table..
@@ -160,33 +177,42 @@
             table = `<table border='4'>
                 <tr>
                 <th> Id </th>
-                <th> First Name </th>
-                <th> last Name </th>
+                <th> Name </th>
+                <th> Email </th>
                 <th> Address </th>
                 <th>Mobile Number </th>
                 <th> City </th>
                 <th> Gender </th>
                 <th> Hobby </th>
                 <th> Car </th>
+                <th> Birth Date </th>
+                <th> Color </th>
+                <th> File </th>
+                <th> Password </th>
+                <th> Age </th>
                 <th colspan='2'> Action </th></tr>`;
 
             for (let i = 0; i < arr_data.length; i++) {
                 table += `<tr>
                 <td>${arr_data[i].id}</td>
                 <td>${arr_data[i].fname}</td>
-                <td>${arr_data[i].lname}</td>
+                <td>${arr_data[i].email}</td>
                 <td>${arr_data[i].add}</td>
                 <td>${arr_data[i].num}</td>
                 <td>${arr_data[i].city}</td>
                 <td>${arr_data[i].gender}</td>
                 <td>${arr_data[i].hobby}</td>
                 <td>${arr_data[i].car}</td>
-
+                <td>${arr_data[i].b_date}</td>
+                <td>${arr_data[i].color}</td>
+                <td>${arr_data[i].file}</td>
+                <td>${arr_data[i].password}</td>
+                <td>${arr_data[i].age}</td>
 
                 <td><button type="button" id='${i}' onclick='delete_record(${i})'>Delete</button></td>
                 <td><button type="button" id='${i}' onclick='update_record(${i})'>Update</button></td></tr>`;
             }
-            // table += `</table>`;
+            table += `</table>`;
             document.getElementById('data').innerHTML = table;
             reset();
         }
@@ -194,15 +220,22 @@
         //Data validations..
         function validations() {
             let fname = document.getElementById('fname').value;
-            let lname = document.getElementById('lname').value;
+            let email = document.getElementById('email').value;
+            let password = document.getElementById('email').value;
             let add = document.getElementById('add').value;
             let num = document.getElementById('num').value;
             let city = document.getElementById('city').value;
             let male = document.querySelector('#male');
             let female = document.querySelector('#female');
             let other = document.querySelector("#other");
+            let cricket = document.querySelector('#cricket');
+            let tennis = document.querySelector("#tennis");
+            let chess = document.querySelector("#chess");
+            let b_date = document.getElementById("b_date").value;
+            let file = document.getElementById("file").value;
 
-            var regName = /^[a-zA-Z]+$/;
+            const regName = /^[a-zA-Z]+$/;
+            const rege_mail = /^[a-z0-9]+@[a-z]+\.[a-z]{2,3}$/;
 
             if (fname == '' || fname == null) {
                 alert("Please enter first name !");
@@ -210,14 +243,17 @@
             } else if (!regName.test(fname)) {
                 alert("Please enter a valid first name !");
                 return false;
-            } else if (lname == '' || lname == null) {
-                alert("Please enter a last name!");
+            } else if (email == '' || email == null) {
+                alert("Please enter a email !");
                 return false;
-            } else if (!regName.test(lname)) {
-                alert("Please enter a valid last name !");
+            } else if (!rege_mail.test(email)) {
+                alert("Please enter a valid email address !");
+                return false;
+            } else if (password == '') {
+                alert("Please enter an password !");
                 return false;
             } else if (add == '') {
-                alert("Please enter an address.");
+                alert("Please enter an address !");
                 return false;
             } else if (isNaN(num) || num.length != 10) {
                 alert("Please enter a valid phone number with 10 digits.");
@@ -225,12 +261,19 @@
             } else if (isNaN(num) || city == '') {
                 alert("Please enter valid city.");
                 return false;
-            }
-            else if (!male.checked && !female.checked && !other.checked) {
+            } else if (!male.checked && !female.checked && !other.checked) {
                 alert("Please select your Gender.");
                 return false;
-            }
-            else {
+            } else if (!cricket.checked && !tennis.checked && !chess.checked) {
+                alert("Please select hobby !");
+                return false;
+            } else if (b_date == '' || b_date == null) {
+                alert("please select  date of birth !");
+                return false;
+            } else if (file == "" || file == null) {
+                alert("please select file !");
+                return false;
+            } else {
                 return true;
             }
 
@@ -247,7 +290,7 @@
         function update_record(id) {
             // console.log(id)
             document.getElementById("fname").value = arr_data[id].fname;
-            document.getElementById("lname").value = arr_data[id].lname;
+            document.getElementById("email").value = arr_data[id].email;
             document.getElementById("add").value = arr_data[id].add;
             document.getElementById("num").value = arr_data[id].num;
             document.getElementById("city").value = arr_data[id].city;
@@ -263,9 +306,13 @@
             if (hobby.chess == "chess") { document.getElementById('chess').checked = true; }
 
             document.getElementById("car").value = arr_data[id].car;
+            document.getElementById("b_date").value = arr_data[id].b_date;
+            document.getElementById("color").value = arr_data[id].color;
+            document.getElementById("password").value = arr_data[id].password;
+            document.getElementById("age").value = arr_data[id].age;
 
-
-            document.getElementById('up_btn').innerHTML = `<button type="button" onclick="updated_record(${id})" value="Update">Update</button>`;
+            document.getElementById('up_btn').innerHTML = `<td><button type="button" onclick="updated_record(${id})" value="Update"> Update </button></td>`;
+           
             document.getElementById("sub_btn").style.display = "none";
             document.getElementById("up_btn").style.display = "";
 
@@ -295,15 +342,19 @@
             arr_data[idd] = {
                 "id": idd + 1,
                 "fname": document.getElementById("fname").value,
-                "lname": document.getElementById("lname").value,
+                "email": document.getElementById("email").value,
                 "add": document.getElementById("add").value,
                 "num": document.getElementById("num").value,
                 "city": document.getElementById("city").value,
                 // "gender": document.querySelector('input[name="gen"]:checked').value,
                 "gender": gen,
                 "hobby": Object.values(hobby).join(" "),
-                "car" : document.getElementById('car').value
-
+                "car": document.getElementById('car').value,
+                "b_date": document.getElementById('b_date').value,
+                "color": document.getElementById('color').value,
+                "file": document.getElementById('file').value,
+                "password": document.getElementById('password').value,
+                "age": document.getElementById('age').value
             };
             show_data();
             document.getElementById("up_btn").style.display = "none";
@@ -313,7 +364,7 @@
         // Reset Fields..
         function reset() {
             document.getElementById("fname").value = "";
-            document.getElementById("lname").value = "";
+            document.getElementById("email").value = "";
             document.getElementById("add").value = "";
             document.getElementById("num").value = "";
             document.getElementById("city").value = "";
@@ -324,7 +375,9 @@
             document.getElementById("tennis").checked = false;
             document.getElementById("chess").checked = false;
             document.getElementById("car").value = "";
-
+            document.getElementById("file").value = "";
+            document.getElementById("password").value = "";
+            document.getElementById("age").value = "";
 
 
         }
