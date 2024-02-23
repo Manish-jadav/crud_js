@@ -18,25 +18,27 @@
         #data {
             display: flex;
             justify-content: center;
-            padding-top: 5%;
+            padding-top: 2%;
         }
 
-        table{
-            background-color:azure;
+        table {
+            background-color: aliceblue;
 
-        } 
+        }
+
         td,
         th {
-          padding: 0.5vw; 
+            padding: 0.5vw;
         }
 
         button {
             background-color: blue;
-            color: white; 
-          padding: 5px 10px 5px 10px;
-         border-radius: 5px; 
-         } 
-         /* input[type='radio']{
+            color: white;
+            padding: 5px 10px 5px 10px;
+            border-radius: 5px;
+        }
+
+        /* input[type='radio']{
             height: 20px;
             width: 20px;
          } */
@@ -77,6 +79,22 @@
                 </td>
             </tr>
             <tr>
+                <td> Hobby </td>
+                <td><input type="checkbox" id="cricket" value="cricket"> Cricket &nbsp;&nbsp;
+                    <input type="checkbox" id="chess" value="chess"> Chess &nbsp;&nbsp;
+                    <input type="checkbox" id="tennis" value="tennis"> Tennis
+                </td>
+            </tr>
+            <tr>
+                <td>Car </td>
+                <td><select name="car" id="car" >
+                        <option value="BMW">BMW</option>
+                        <option value="Volvo">Volvo</option>
+                        <option value="Audi">Audi</option>
+                        <option value="Saab">Saab</option>
+                    </select></td>
+            </tr>
+            <tr>
                 <td align="center" id="sub_btn"><button type="button" onclick="submit_data();"
                         value="Submit">Submit</button></td>
                 <td id="up_btn" align="center"></td>
@@ -91,39 +109,86 @@
         var arr_data = new Array();
         var obj = new Object();
         var id = 0;
+        let hobby = new Object();
 
         //Submit Data..
         function submit_data() {
-            if (validations()) {
-                let male = document.querySelector('#male');
-                let female = document.querySelector('#female');
-                let other = document.querySelector("#other");
-                let gen = "";
-                if (male.checked) {
-                    // alert('Please choose your Gender: Male or Female or other ')
-                    gen = "Male";
-                } else if (female.checked) {
-                    // alert('Form submitted!')
-                    gen = "Female";
-                } else if (other.checked) {
-                    gen = "Other";
-                }
+            // if (validations()) {
+            hobby = {
+                cricket: "",
+                tennis: "",
+                chess: ""
+            };
+            let male = document.querySelector('#male');
+            let female = document.querySelector('#female');
+            let other = document.querySelector("#other");
+            let gen = "";
+            let cricket = document.querySelector('#cricket');
+            let tennis = document.getElementById("tennis");
+            let chess = document.getElementById("chess");
 
-                id++;
-                obj = {
-                    id: id,
-                    fname: document.getElementById('fname').value,
-                    lname: document.getElementById('lname').value,
-                    add: document.getElementById('add').value,
-                    num: document.getElementById('num').value,
-                    city: document.getElementById('city').value,
-                    // gender: document.querySelector(["input[name='gen']:checked"]).value,
-                    gender: gen,
-                }
-                arr_data.push(obj);
-                console.log(arr_data);
-                show_data();
+            if (cricket.checked) { hobby.cricket = "cricket"; }
+            if (tennis.checked) { hobby.tennis = "tennis"; }
+            if (chess.checked) { hobby.chess = "chess"; }
+            // console.log(hobby);
+            if (male.checked) {
+                gen = "Male";
+            } else if (female.checked) {
+                gen = "Female";
+            } else if (other.checked) {
+                gen = "Other";
             }
+
+            id++;
+            obj = {
+                id: id,
+                fname: document.getElementById('fname').value,
+                lname: document.getElementById('lname').value,
+                add: document.getElementById('add').value,
+                num: document.getElementById('num').value,
+                city: document.getElementById('city').value,
+                gender: gen,
+                hobby: Object.values(hobby).join(' '),
+                car : document.getElementById('car').value
+            }
+            arr_data.push(obj);
+            show_data();
+        }
+
+        //Show data in table..
+        function show_data() {
+            table = `<table border='4'>
+                <tr>
+                <th> Id </th>
+                <th> First Name </th>
+                <th> last Name </th>
+                <th> Address </th>
+                <th>Mobile Number </th>
+                <th> City </th>
+                <th> Gender </th>
+                <th> Hobby </th>
+                <th> Car </th>
+                <th colspan='2'> Action </th></tr>`;
+
+            for (let i = 0; i < arr_data.length; i++) {
+                table += `<tr>
+                <td>${arr_data[i].id}</td>
+                <td>${arr_data[i].fname}</td>
+                <td>${arr_data[i].lname}</td>
+                <td>${arr_data[i].add}</td>
+                <td>${arr_data[i].num}</td>
+                <td>${arr_data[i].city}</td>
+                <td>${arr_data[i].gender}</td>
+                <td>${arr_data[i].hobby}</td>
+                <td>${arr_data[i].car}</td>
+
+
+                <td><button type="button" id='${i}' onclick='delete_record(${i})'>Delete</button></td>
+                <td><button type="button" id='${i}' onclick='update_record(${i})'>Update</button></td></tr>`;
+            }
+            // table += `</table>`;
+            document.getElementById('data').innerHTML = table;
+            reset();
         }
 
         //Data validations..
@@ -133,26 +198,12 @@
             let add = document.getElementById('add').value;
             let num = document.getElementById('num').value;
             let city = document.getElementById('city').value;
-            //  gen = document.querySelector("input[name='gen']:checked").value;
-            // alert(gen)
-            // let gen = document.querySelector("input[name='gen']:checked").value;
             let male = document.querySelector('#male');
             let female = document.querySelector('#female');
             let other = document.querySelector("#other");
-            // let gen = "";
 
-            // if (male.checked) {
-            //     // alert('Please choose your Gender: Male or Female or other ')
-            //     gen = "Male";
-            // } else if(female.checked){
-            //     // alert('Form submitted!')
-            //     gen = "Female";
-            // }else if(other.checked){
-            //     gen = "Other";
-            // }else{
-            //     alert("Please choose your gender ")
-            // }
             var regName = /^[a-zA-Z]+$/;
+
             if (fname == '' || fname == null) {
                 alert("Please enter first name !");
                 return false;
@@ -185,37 +236,6 @@
 
         }
 
-        //Show data in table..
-        function show_data() {
-            table = `<table border='4'>
-                <tr>
-                <th> Id </th>
-                <th> First Name </th>
-                <th> last Name </th>
-                <th> Address </th>
-                <th>Mobile Number </th>
-                <th> City </th>
-                <th> Gender </th>
-                <th colspan='2'> Action </th></tr>`;
-
-            for (let i = 0; i < arr_data.length; i++) {
-                table += `<tr>
-                <td>${arr_data[i].id}</td>
-                <td>${arr_data[i].fname}</td>
-                <td>${arr_data[i].lname}</td>
-                <td>${arr_data[i].add}</td>
-                <td>${arr_data[i].num}</td>
-                <td>${arr_data[i].city}</td>
-                <td>${arr_data[i].gender}</td>
-
-                <td><button type="button" id='${i}' onclick='delete_record(${i})'>Delete</button></td>
-                <td><button type="button" id='${i}' onclick='update_record(${i})'>Update</button></td></tr>`;
-            }
-            // table += `</table>`;
-            document.getElementById('data').innerHTML = table;
-            reset();
-        }
-
         // Detele Record...
         function delete_record(id) {
             // debugger;
@@ -235,17 +255,43 @@
                 document.getElementById("male").checked = true;
             } else if (arr_data[id].gender == "Female") {
                 document.getElementById("female").checked = true;
-            } else {
+            } else if (arr_data[id].gender == "other") {
                 document.getElementById("other").checked = true;
             }
+            if (hobby.cricket == "cricket") { document.getElementById('cricket').checked = true; }
+            if (hobby.tennis == "tennis") { document.getElementById('tennis').checked = true; }
+            if (hobby.chess == "chess") { document.getElementById('chess').checked = true; }
+
+            document.getElementById("car").value = arr_data[id].car;
+
 
             document.getElementById('up_btn').innerHTML = `<button type="button" onclick="updated_record(${id})" value="Update">Update</button>`;
-            // document.getElementById("sub_btn").style.display= "none";
+            document.getElementById("sub_btn").style.display = "none";
+            document.getElementById("up_btn").style.display = "";
+
         }
 
         function updated_record(idd) {
             console.log(arr_data)
-            console.log(document.getElementById("fname").value)
+            console.log(document.getElementById("fname").value);
+            let male = document.querySelector('#male');
+            let female = document.querySelector('#female');
+            let other = document.querySelector("#other");
+            var gen = '';
+            if (male.checked) {
+                gen = "Male";
+            } else if (female.checked) {
+                gen = "Female";
+            } else if (other.checked) {
+                gen = "Other";
+            }
+            let cricket = document.querySelector('#cricket');
+            let tennis = document.querySelector("#tennis");
+            let chess = document.querySelector("#chess");
+            if (!cricket.checked) { hobby.cricket = ""; } else { hobby.cricket = "cricket" };
+            if (!tennis.checked) { hobby.tennis = ""; } else { hobby.tennis = "tennis" };
+            if (!chess.checked) { hobby.chess = ""; } else { hobby.chess = "chess" }
+
             arr_data[idd] = {
                 "id": idd + 1,
                 "fname": document.getElementById("fname").value,
@@ -253,12 +299,15 @@
                 "add": document.getElementById("add").value,
                 "num": document.getElementById("num").value,
                 "city": document.getElementById("city").value,
-                "gender": document.querySelector('input[name="gen"]:checked').value,
+                // "gender": document.querySelector('input[name="gen"]:checked').value,
+                "gender": gen,
+                "hobby": Object.values(hobby).join(" "),
+                "car" : document.getElementById('car').value
 
             };
             show_data();
-            // document.getElementById("up_btn").style.display= "none";
-            // document.getElementById("sub_btn").style.display= "";
+            document.getElementById("up_btn").style.display = "none";
+            document.getElementById("sub_btn").style.display = "";
         }
 
         // Reset Fields..
@@ -271,6 +320,11 @@
             document.querySelector("input[value='other']").checked = false;
             document.querySelector("input[value='Male']").checked = false;
             document.querySelector("input[value='Female']").checked = false;
+            document.getElementById("cricket").checked = false;
+            document.getElementById("tennis").checked = false;
+            document.getElementById("chess").checked = false;
+            document.getElementById("car").value = "";
+
 
 
         }
