@@ -174,40 +174,40 @@
 
         //Show data in table..
         function show_data() {
-            table = `<table border='4'>
+            table = `<table border='6'>
                 <tr>
                 <th> Id </th>
                 <th> Name </th>
-                <th> Email </th>
-                <th> Address </th>
                 <th>Mobile Number </th>
+                <th> Email </th>
+                <th> Password </th>
                 <th> City </th>
                 <th> Gender </th>
-                <th> Hobby </th>
                 <th> Car </th>
+                <th> Hobby </th>
                 <th> Birth Date </th>
                 <th> Color </th>
                 <th> File </th>
-                <th> Password </th>
                 <th> Age </th>
+                <th> Address </th>
                 <th colspan='2'> Action </th></tr>`;
 
             for (let i = 0; i < arr_data.length; i++) {
                 table += `<tr>
                 <td>${arr_data[i].id}</td>
                 <td>${arr_data[i].fname}</td>
-                <td>${arr_data[i].email}</td>
-                <td>${arr_data[i].add}</td>
                 <td>${arr_data[i].num}</td>
+                <td>${arr_data[i].email}</td>
+                <td>${arr_data[i].password}</td>
                 <td>${arr_data[i].city}</td>
                 <td>${arr_data[i].gender}</td>
-                <td>${arr_data[i].hobby}</td>
                 <td>${arr_data[i].car}</td>
+                <td>${arr_data[i].hobby}</td>
                 <td>${arr_data[i].b_date}</td>
                 <td>${arr_data[i].color}</td>
                 <td>${arr_data[i].file}</td>
-                <td>${arr_data[i].password}</td>
                 <td>${arr_data[i].age}</td>
+                <td>${arr_data[i].add}</td>
 
                 <td><button type="button" id='${i}' onclick='delete_record(${i})'>Delete</button></td>
                 <td><button type="button" id='${i}' onclick='update_record(${i})'>Update</button></td></tr>`;
